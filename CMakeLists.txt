@@ -1,11 +1,17 @@
-﻿# CMakeList.txt: файл проекта CMake верхнего уровня; проведите глобальную конфигурацию
-# и включите сюда подпроекты.
+﻿# CMakeList.txt: проект CMake для CMakevcpkgSfmlProject; включите исходный код и определения,
+# укажите здесь логику для конкретного проекта.
 #
 cmake_minimum_required (VERSION 3.8)
+find_package(SFML COMPONENTS system window graphics CONFIG REQUIRED)
 
-set (CMAKE_TOOLCHAIN_FILE "C:/DEV/vcpkg/scripts/buildsystems/vcpkg.cmake")
+# Добавьте источник в исполняемый файл этого проекта.
+add_executable (CMakevcpkgSfmlProject "CMakevcpkgSfmlProject.cpp" "CMakevcpkgSfmlProject.h" )
 
-project ("CMakevcpkgSfmlProject")
+target_link_libraries(CMakevcpkgSfmlProject PRIVATE sfml-system sfml-network sfml-graphics sfml-window)
 
-# Включите подпроекты.
-add_subdirectory ("CMakevcpkgSfmlProject")
+
+if (CMAKE_VERSION VERSION_GREATER 3.12)
+  set_property(TARGET CMakevcpkgSfmlProject PROPERTY CXX_STANDARD 20)
+endif()
+
+# TODO: Добавьте тесты и целевые объекты, если это необходимо.
