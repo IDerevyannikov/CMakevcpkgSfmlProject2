@@ -1,0 +1,76 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"jsonFile" : "directory-.-Release-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "CMakevcpkgSfmlProject",
+					"jsonFile" : "directory-CMakevcpkgSfmlProject-Release-49cea20c570e48bbca13.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "CMakevcpkgSfmlProject",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "CMakevcpkgSfmlProject",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "CMakevcpkgSfmlProject::@fd2fc83259074a7b83ff",
+					"jsonFile" : "target-CMakevcpkgSfmlProject-Release-7caaec57c77781a82122.json",
+					"name" : "CMakevcpkgSfmlProject",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/vanya/Desktop/SFML programs/CMakevcpkgSfmlProject/out/build/x64-release",
+		"source" : "C:/Users/vanya/Desktop/SFML programs/CMakevcpkgSfmlProject"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}
