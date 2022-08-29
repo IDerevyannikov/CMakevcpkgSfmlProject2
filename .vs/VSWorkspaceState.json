@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\CMakevcpkgSfmlProject"
+    "\\CMakevcpkgSfmlProject",
+    "\\out\\build"
   ],
-  "SelectedNode": "\\CMakevcpkgSfmlProject\\CMakevcpkgSfmlProject.cpp",
+  "SelectedNode": "\\CMakePresets.json",
   "PreviewInSolutionExplorer": false
 }

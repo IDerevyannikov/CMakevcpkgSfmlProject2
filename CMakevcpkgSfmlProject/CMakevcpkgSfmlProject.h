@@ -5,5 +5,6 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
-
+#include<vector>
+#include <random>
 // TODO: установите здесь ссылки на дополнительные заголовки, требующиеся для программы.

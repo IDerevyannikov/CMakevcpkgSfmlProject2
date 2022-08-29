@@ -5,7 +5,7 @@ cmake_minimum_required (VERSION 3.8)
 find_package(SFML COMPONENTS system window graphics CONFIG REQUIRED)
 
 # Добавьте источник в исполняемый файл этого проекта.
-add_executable (CMakevcpkgSfmlProject "CMakevcpkgSfmlProject.cpp" "CMakevcpkgSfmlProject.h" )
+add_executable (CMakevcpkgSfmlProject "CMakevcpkgSfmlProject.cpp" "CMakevcpkgSfmlProject.h" "AllClasses.h" "AllClasses.cpp")
 
 target_link_libraries(CMakevcpkgSfmlProject PRIVATE sfml-system sfml-network sfml-graphics sfml-window)
 
