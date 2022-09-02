@@ -1,5 +1,5 @@
-C:/Users/Respeced Dreamer/Desktop/Взрывоопасно!!!1/SFMLCmake/CMakevcpkgSfmlProject2/out/build/x64-debug/CMakeFiles/edit_cache.dir
-C:/Users/Respeced Dreamer/Desktop/Взрывоопасно!!!1/SFMLCmake/CMakevcpkgSfmlProject2/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
-C:/Users/Respeced Dreamer/Desktop/Взрывоопасно!!!1/SFMLCmake/CMakevcpkgSfmlProject2/out/build/x64-debug/CMakevcpkgSfmlProject/CMakeFiles/edit_cache.dir
-C:/Users/Respeced Dreamer/Desktop/Взрывоопасно!!!1/SFMLCmake/CMakevcpkgSfmlProject2/out/build/x64-debug/CMakevcpkgSfmlProject/CMakeFiles/CMakevcpkgSfmlProject.dir
-C:/Users/Respeced Dreamer/Desktop/Взрывоопасно!!!1/SFMLCmake/CMakevcpkgSfmlProject2/out/build/x64-debug/CMakevcpkgSfmlProject/CMakeFiles/rebuild_cache.dir
+C:/Users/vanya/Desktop/SFML programs/CMakevcpkgSfmlProject2/out/build/x64-debug/CMakeFiles/edit_cache.dir
+C:/Users/vanya/Desktop/SFML programs/CMakevcpkgSfmlProject2/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/vanya/Desktop/SFML programs/CMakevcpkgSfmlProject2/out/build/x64-debug/CMakevcpkgSfmlProject/CMakeFiles/CMakevcpkgSfmlProject.dir
+C:/Users/vanya/Desktop/SFML programs/CMakevcpkgSfmlProject2/out/build/x64-debug/CMakevcpkgSfmlProject/CMakeFiles/edit_cache.dir
+C:/Users/vanya/Desktop/SFML programs/CMakevcpkgSfmlProject2/out/build/x64-debug/CMakevcpkgSfmlProject/CMakeFiles/rebuild_cache.dir

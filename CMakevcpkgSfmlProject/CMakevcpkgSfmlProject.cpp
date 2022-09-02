@@ -9,10 +9,26 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(1000, 500), "My test window");
 
 
-	std::string filename = "C:/Users/Respeced Dreamer/Downloads/FoodSprite.png";
-	Snake mySnake=Snake::Snake("C:/Users/Respeced Dreamer/Downloads/Snake sprite sheet.png", 0, 0, 42, 42);
-	
+	std::string filename = "C:/Users/vanya/Desktop/SFML programs/CMakevcpkgSfmlProject2/CMakevcpkgSfmlProject/FoodSprite.png";
+	Snake mySnake=Snake::Snake("C:/Users/vanya/Desktop/SFML programs/CMakevcpkgSfmlProject2/CMakevcpkgSfmlProject/Snake sprite sheet.png", 0, 0, 42, 42);
 	Food food(filename, 83, 94, 210, 210);
+
+
+	sf::Texture bgTex;
+	bgTex.loadFromFile("C:/Users/vanya/Desktop/SFML programs/CMakevcpkgSfmlProject2/CMakevcpkgSfmlProject/white2.png");
+
+	sf::Sprite bgSpr;
+	bgSpr.setTexture(bgTex);
+	bgSpr.setPosition(50, 50);
+	bgSpr.setScale(0.1, 0.1);
+
+	sf::RenderTexture bgRendTex;
+	bgRendTex.create(500, 500);
+	bgRendTex.draw(bgSpr);
+	bgRendTex.display();
+
+	sf::Sprite bgSpr2;
+	bgSpr2.setTexture(bgRendTex.getTexture());
 
 	sf::Clock clock;
 	sf::Clock snakeClock;
@@ -70,6 +86,7 @@ int main()
 
 
 			window.clear();
+			window.draw(bgSpr2);
 			mySnake.drawSnake(window);
 			food.draw(window);
 

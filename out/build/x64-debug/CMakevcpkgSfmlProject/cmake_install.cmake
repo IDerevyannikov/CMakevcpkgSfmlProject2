@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/Respeced Dreamer/Desktop/Взрывоопасно!!!1/SFMLCmake/CMakevcpkgSfmlProject2/CMakevcpkgSfmlProject
+# Install script for directory: C:/Users/vanya/Desktop/SFML programs/CMakevcpkgSfmlProject2/CMakevcpkgSfmlProject
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/CMakevcpkgSfmlProject")
+  set(CMAKE_INSTALL_PREFIX "C:/Users/vanya/Desktop/SFML programs/CMakevcpkgSfmlProject2/out/install/x64-debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
