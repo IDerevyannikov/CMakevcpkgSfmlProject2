@@ -4,8 +4,8 @@
 
 
 
-Snake::Snake(std::string name, int x, int y, int weight, int height):
-x(x), y(y), weight(weight), height(height) {
+Snake::Snake(std::string name) {
+
 	snakeTexture.loadFromFile(name);
 	snakeSp.resize(4);
 	snakeSp[0].setTexture(snakeTexture);
@@ -37,21 +37,7 @@ x(x), y(y), weight(weight), height(height) {
 	dy = 0;
 }
 
-Snake& Snake::operator=(const Snake  sn)
-{
-	this->x = sn.x;
-	this->y = sn.y;
-	this->weight = sn.weight;
-	this->height = sn.height;
-	this->snakeTexture = sn.snakeTexture;
-	this->snakeSp = sn.snakeSp;
-	this->placeForNext = sn.placeForNext;
-	this->dx = sn.dx;
-	this->dy = sn.dy;
 
-	return *this;
-
-}
 
 sf::Sprite& Snake::operator[](const int i)
 {
@@ -83,7 +69,6 @@ void Snake::pressKey(sf::Clock& animationClock) {
 				dx = 1;
 				dy = 0;
 
-				//snakeSp[1].setScale(1, 1);
 				snakeSp[1].setPosition(snakeSp[0].getPosition());
 				snakeSp[0].setPosition(snakeSp[0].getPosition().x + 50, snakeSp[0].getPosition().y);
 				animationClock.restart();
@@ -110,7 +95,7 @@ void Snake::pressKey(sf::Clock& animationClock) {
 				snakeSp[1].setRotation(snakeSp[0].getRotation());
 				dx = -1;
 				dy = 0;
-				//snakeSp[1].setScale(1, 1);
+
 				snakeSp[1].setPosition(snakeSp[0].getPosition());
 				snakeSp[0].setPosition(snakeSp[0].getPosition().x - 50, snakeSp[0].getPosition().y);
 				animationClock.restart();
@@ -135,11 +120,12 @@ void Snake::pressKey(sf::Clock& animationClock) {
 				if (dx > 0) snakeSp[1].setTextureRect(sf::IntRect::Rect(42, 0, 41, 41));
 				else if (dx < 0) snakeSp[1].setTextureRect(sf::IntRect::Rect(85, 0, 41, 41));
 				snakeSp[1].setRotation(snakeSp[0].getRotation());
-				std::cout << dx << '\t';
+
+
 				dx = 0;
 				dy = -1;
 
-				//snakeSp[1].setScale(1, 1);
+
 				snakeSp[1].setPosition(snakeSp[0].getPosition());
 				snakeSp[0].setPosition(snakeSp[0].getPosition().x, snakeSp[0].getPosition().y - 50);
 				animationClock.restart();
@@ -167,7 +153,6 @@ void Snake::pressKey(sf::Clock& animationClock) {
 				dx = 0;
 				dy = 1;
 
-				//snakeSp[1].setScale(1, 1);
 				snakeSp[1].setPosition(snakeSp[0].getPosition());
 				snakeSp[0].setPosition(snakeSp[0].getPosition().x, snakeSp[0].getPosition().y + 50);
 				animationClock.restart();
@@ -182,7 +167,7 @@ void Snake::pressKey(sf::Clock& animationClock) {
 
 
 void Snake::move(sf::Clock& animationClock,float& animationTime) {
-	if (animationTime > 0.5f) {
+	if (animationTime > 0.25f) {
 		if (dx != 0 || dy != 0) {
 			/*CurrentFrame += animatonParam * time;
 			if (CurrentFrame > 6) animatonParam = -0.005;
@@ -267,6 +252,17 @@ bool Snake::checkRepeat()
 			return true;
 		}
 	}
+
+	if (snakeSp[0].getPosition().x < 0 ||
+		snakeSp[0].getPosition().y < 50 ||
+		snakeSp[0].getPosition().x >1000 ||
+		snakeSp[0].getPosition().y > 500) 
+	{
+		return true;
+	}
+
+
+
 	return false;
 }
 
@@ -321,6 +317,42 @@ float Snake::getTailRotate()
 
 
 
+//Counter Class Methods
+Counter::Counter(std::string fontName)
+{
+	ctrFont.loadFromFile(fontName);
+
+	ctrText.setFont(ctrFont);
+	ctrText.setString("Point: 0");
+	ctrText.setCharacterSize(24);
+	ctrText.setFillColor(sf::Color::Black);
+}
+
+const std::string& Counter::getTextString() const
+{
+	return ctrText.getString();
+}
+
+void Counter::setTextString(const std::string& tmp)
+{
+	ctrText.setString(tmp);
+}
+
+void Counter::setTextPosition(int x, int y)
+{
+	ctrText.setPosition(x - ctrText.getLocalBounds().width/2, y);
+}
+
+void Counter::draw(sf::RenderWindow& window)
+{
+	window.draw(ctrText);
+}
+
+const sf::FloatRect& Counter::getTextLocalBound() const
+{
+	return ctrText.getLocalBounds();
+}
+
 
 
 //Food classes method
@@ -330,11 +362,11 @@ Food::Food(std::string filename, int x, int y, int weight, int height) :x(x), y(
 	foodSp.setTexture(foodTexture);
 	foodSp.setTextureRect(sf::IntRect::Rect(x, y, weight, height));
 	foodSp.setScale(50./210, 50./210);
-	foodSp.setPosition(25, 25);
+	foodSp.setPosition(575, 125);
 	foodSp.setOrigin(sf::Vector2f(foodSp.getLocalBounds().width, foodSp.getLocalBounds().height) / 2.f);
 }
 
-void Food::installFood(Snake& snake, std::vector<int>& freeBlock)
+void Food::installFood(Snake& snake, std::vector<int>& freeBlock, Counter& ctr)
 {
 	if (snake.getPosition(0) == foodSp.getPosition()) {
 		for (auto& i : snake.getSnake()) {
@@ -345,6 +377,10 @@ void Food::installFood(Snake& snake, std::vector<int>& freeBlock)
 			snake.lastBlock().setPosition(snake.getPlaceForNext());
 			snake.lastBlock().setRotation(snake.getTailRotate());
 			snake[snake.getSnakeSize() - 2]=snake.getPenaltimateSp();
+
+			std::string ctrStr = "Point: " + std::to_string(snake.getSnakeSize() - 4);
+			ctr.setTextString(ctrStr);
+			ctr.setTextPosition(500, 0);
 
 		
 		std::random_device rd;
@@ -367,3 +403,49 @@ void Food::draw(sf::RenderWindow& window)
 {
 	window.draw(foodSp);
 }
+
+
+
+
+
+
+
+//Bacground class methods
+Background::Background()
+{
+	sf::Texture bgSqTexWh;
+	sf::Texture bgSqTexBl;
+	bgSqTexWh.loadFromFile("C:/Users/vanya/Desktop/SFML programs/CMakevcpkgSfmlProject2/CMakevcpkgSfmlProject/white2.png");
+	bgSqTexBl.loadFromFile("C:/Users/vanya/Downloads/загруженное.png");
+
+	sf::Sprite bgSqSpriteWh;
+	sf::Sprite bgSqSpriteBl;
+
+	bgSqSpriteWh.setTexture(bgSqTexWh);
+	bgSqSpriteBl.setTexture(bgSqTexBl);
+
+	bgSqSpriteWh.setScale(50. / bgSqTexWh.getSize().x, 50. / bgSqTexWh.getSize().y);
+	bgSqSpriteBl.setScale(50. / bgSqTexBl.getSize().x, 50. / bgSqTexBl.getSize().y);
+
+	this->bgRendTex.create(1000, 500);
+	for (size_t i = 0; i < 20; ++i) {
+		for (size_t j = 1; j < 10; ++j) {
+			bgSqSpriteWh.setPosition(100 * i +50 *(j%2), 50 * j);
+			bgSqSpriteBl.setPosition(100 * i +50 * ((j+1)%2), 50 * j);
+			this->bgRendTex.draw(bgSqSpriteWh);
+			this->bgRendTex.draw(bgSqSpriteBl);
+		}
+	}
+
+	this->bgRendTex.display();
+
+	this->bgSp.setTexture(this->bgRendTex.getTexture());
+}
+
+
+void Background::draw(sf::RenderWindow& window)
+{
+	window.draw(this->bgSp);
+}
+
+

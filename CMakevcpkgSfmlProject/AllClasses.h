@@ -4,9 +4,9 @@
 
 class Snake {
 public:
-	Snake(std::string name, int x, int y, int weight, int height);
+	explicit Snake(std::string name);
 
-	Snake& operator = (const Snake sn);
+
 	sf::Sprite& operator [](const int i);
 
 
@@ -41,13 +41,35 @@ public:
 	float getTailRotate();
 
 private:
-	int x, y, weight, height;
+
 	int dx, dy;
 	sf::Vector2f placeForNext;
 	sf::Texture snakeTexture;
 	std::vector <sf::Sprite> snakeSp;
 	sf::Sprite penaltimate;
 	float tailRotate;
+};
+
+
+class Counter {
+public:
+	Counter(std::string fontName);
+
+
+	const std::string& getTextString() const;
+
+	void setTextString(const std::string& tmp);
+
+	void setTextPosition(int x, int y);
+
+	void draw(sf::RenderWindow& window);
+
+private:
+	const sf::FloatRect& getTextLocalBound() const;
+	sf::Font ctrFont;
+	sf::Text ctrText;
+
+
 };
 
 
@@ -58,7 +80,7 @@ public:
 	Food(std::string filename, int x, int y, int weight, int height);
 
 
-	void installFood(Snake& snake, std::vector<int>& freeBlock);
+	void installFood(Snake& snake, std::vector<int>& freeBlock, Counter& ctr);
 	void draw(sf::RenderWindow& window);
 
 private:
@@ -68,3 +90,19 @@ private:
 	sf::Texture foodTexture;
 	sf::Sprite foodSp;
 };
+
+
+
+
+//Background class
+class Background {
+public:
+	Background();
+	void  draw(sf::RenderWindow& window);
+
+private:
+	int x, y;
+	sf::RenderTexture bgRendTex;
+	sf::Sprite bgSp;
+};
+

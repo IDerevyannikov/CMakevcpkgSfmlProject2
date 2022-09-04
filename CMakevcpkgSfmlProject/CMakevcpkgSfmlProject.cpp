@@ -3,107 +3,76 @@
 
 int main()
 {
-	sf::Text text;
-	sf::Font font;
-	font.loadFromFile("C:/Users/vanya/Downloads/ComicMono.ttf");
-	// select the font
-	text.setFont(font); // font is a sf::Font
-
-	// set the string to display
-
-	// set the character size
-	text.setCharacterSize(24); // in pixels, not points!
-
-	// set the color
-	text.setFillColor(sf::Color(0,0,0));
+	sf::RenderWindow gameWindow(sf::VideoMode(1000, 500), "My test window");
 
 
-	std::string str;
+	Snake mainSnake("C:/Users/vanya/Desktop/SFML programs/CMakevcpkgSfmlProject2/CMakevcpkgSfmlProject/Snake sprite sheet.png");
+	Food apple("C:/Users/vanya/Desktop/SFML programs/CMakevcpkgSfmlProject2/CMakevcpkgSfmlProject/FoodSprite.png", 83, 94, 210, 210);
 
-	sf::RenderWindow window(sf::VideoMode(1000, 500), "My test window");
+	Background bg;
 
-
-	std::string filename = "C:/Users/vanya/Desktop/SFML programs/CMakevcpkgSfmlProject2/CMakevcpkgSfmlProject/FoodSprite.png";
-	Snake mySnake=Snake::Snake("C:/Users/vanya/Desktop/SFML programs/CMakevcpkgSfmlProject2/CMakevcpkgSfmlProject/Snake sprite sheet.png", 0, 0, 42, 42);
-	Food food(filename, 83, 94, 210, 210);
+	Counter pointCtr("C:/Users/vanya/Downloads/ComicMono.ttf");
 
 
-	sf::Texture bgTex;
-	bgTex.loadFromFile("C:/Users/vanya/Desktop/SFML programs/CMakevcpkgSfmlProject2/CMakevcpkgSfmlProject/white2.png");
-
-	sf::Clock clock;
 	sf::Clock snakeClock;
 	sf::Clock animationClock;
-	float CurrentFrame = 0;
-	float dx = 0;
-	float dy = 0;
-	float animatonParam = 0.001;
-
+	
 
 	std::vector<int> freeBlock((1000 / 50) * (500 / 50));
 	std::fill(freeBlock.begin()+20, freeBlock.end(), 1);
 
 	bool ispaused = false;
+	sf::Event gameEvent;
 
-	while (window.isOpen()) {
+	while (gameWindow.isOpen()) {
 
-		float time = clock.getElapsedTime().asMicroseconds();
 		float snakeTime = snakeClock.getElapsedTime().asSeconds();
 		float animationTime = animationClock.getElapsedTime().asSeconds();
 
-		sf::Event event;
-		clock.restart();
-		time = time / 800;
 
 		
-		if (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed)
-				window.close();
+		if (gameWindow.pollEvent(gameEvent)) {
+			if (gameEvent.type == sf::Event::Closed)
+				gameWindow.close();
 
-			else if (event.type ==sf::Event::KeyPressed) {
-				if (event.key.code == sf::Keyboard::P) {
+			else if (gameEvent.type ==sf::Event::KeyPressed) {
+
+				if (gameEvent.key.code == sf::Keyboard::P) {
 					ispaused = !ispaused;
 				}
 
-				else if ((mySnake.checkRepeat() || ispaused) && event.key.code == sf::Keyboard::R) {
+				else if ((mainSnake.checkRepeat() || ispaused) && gameEvent.key.code == sf::Keyboard::R) {
 					ispaused = 0;
-					food.installFood(mySnake, freeBlock);
-					mySnake.setFirstPos();
+					pointCtr.setTextString("Point: 0");
+					apple.installFood(mainSnake, freeBlock, pointCtr);
+					mainSnake.setFirstPos();
 				}
 
 			}
 		}
 		
-		if (!ispaused) {
-			mySnake.pressKey(animationClock);
-			mySnake.move(animationClock, animationTime);
+		if (!ispaused && !mainSnake.checkRepeat()) {
+			mainSnake.pressKey(animationClock);
+			mainSnake.move(animationClock, animationTime);
 
 
-			food.installFood(mySnake, freeBlock);
+			apple.installFood(mainSnake, freeBlock, pointCtr);
 
-			if (mySnake.checkRepeat()) {
-				mySnake.stopMove();
-				continue;
-			}
+			//if (mainSnake.checkRepeat()) {
+				//mainSnake.stopMove();
+				//continue;
+			//}
 
-			str = "Point: " + std::to_string(mySnake.getSnakeSize()-4);
-			text.setString(str);
-
-			text.setPosition(500 - text.getLocalBounds().width, 0);
-
-			window.clear(sf::Color(0,141,150));
-			bg.draw(window);
-			mySnake.drawSnake(window);
-			food.draw(window);
-
-
-			window.draw(text);
-			window.display();
+			gameWindow.clear(sf::Color(0,141,150));
+			bg.draw(gameWindow);
+			mainSnake.drawSnake(gameWindow);
+			apple.draw(gameWindow);
+			pointCtr.draw(gameWindow);
+			gameWindow.display();
 
 		}
 	}
 
 	return 0;
-	
 	
 }
