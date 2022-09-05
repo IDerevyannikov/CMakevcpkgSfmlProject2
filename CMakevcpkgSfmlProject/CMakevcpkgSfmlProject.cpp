@@ -7,7 +7,7 @@ int main()
 
 
 	Snake mainSnake("C:/Users/vanya/Desktop/SFML programs/CMakevcpkgSfmlProject2/CMakevcpkgSfmlProject/Snake sprite sheet.png");
-	Food apple("C:/Users/vanya/Desktop/SFML programs/CMakevcpkgSfmlProject2/CMakevcpkgSfmlProject/FoodSprite.png", 83, 94, 210, 210);
+	Food apple("C:/Users/vanya/Desktop/SFML programs/CMakevcpkgSfmlProject2/CMakevcpkgSfmlProject/FoodSprite.png");
 
 	Background bg;
 
@@ -44,7 +44,7 @@ int main()
 					ispaused = !ispaused;
 				}
 
-				else if ((mainSnake.checkRepeat() || ispaused) && gameEvent.key.code == sf::Keyboard::R) {
+				else if ((mainSnake.checkConflict() || ispaused) && gameEvent.key.code == sf::Keyboard::R) {
 					ispaused = 0;
 					pointCtr.setTextString("Point: 0");
 					apple.installFood(mainSnake, freeBlock, pointCtr);
@@ -56,7 +56,7 @@ int main()
 		
 		if (!ispaused) {
 
-			if (!mainSnake.checkRepeat()) {
+			if (!mainSnake.checkConflict()) {
 				mainSnake.pressKey(animationClock);
 				mainSnake.move(animationClock, animationTime);
 

@@ -46,7 +46,7 @@ sf::Sprite& Snake::operator[](const int i)
 
 void Snake::pressKey(sf::Clock& animationClock) {
 
-	auto p = [this] {
+	auto setBodyTailPos= [this] {
 		placeForNext = snakeSp.back().getPosition();
 		penaltimate = snakeSp[snakeSp.size() - 2];
 		tailRotate = snakeSp.back().getRotation();
@@ -60,18 +60,18 @@ void Snake::pressKey(sf::Clock& animationClock) {
 	};
 
 
-	auto f = [this, &animationClock] {
+	auto setTurnHeadPos = [this, &animationClock] {
 		snakeSp[1].setRotation(snakeSp[0].getRotation());
-	snakeSp[1].setPosition(snakeSp[0].getPosition());
-	snakeSp[0].setPosition(snakeSp[0].getPosition().x + 50 *dx, snakeSp[0].getPosition().y+50*dy);
-	animationClock.restart(); 
+		snakeSp[1].setPosition(snakeSp[0].getPosition());
+		snakeSp[0].setPosition(snakeSp[0].getPosition().x + 50 *dx, snakeSp[0].getPosition().y+50*dy);
+		animationClock.restart(); 
 
 	};
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 			if (dx == 0) {
 
-				p();
+				setBodyTailPos();
 
 				snakeSp[0].setRotation(270);
 				if (dy < 0) snakeSp[1].setTextureRect(sf::IntRect::Rect(85, 0, 41, 41));
@@ -80,14 +80,14 @@ void Snake::pressKey(sf::Clock& animationClock) {
 				dx = 1;
 				dy = 0;
 				
-				f();
+				setTurnHeadPos();
 			}
 
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 			if (dx == 0) {
 
-				p();
+				setBodyTailPos();
 
 				snakeSp[0].setRotation(90);
 				if (dy < 0) snakeSp[1].setTextureRect(sf::IntRect::Rect(42, 0, 41, 41));
@@ -96,14 +96,14 @@ void Snake::pressKey(sf::Clock& animationClock) {
 				dx = -1;
 				dy = 0;
 				
-				f();
+				setTurnHeadPos();
 			}
 		}
 
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 			if (dy == 0) {
 
-				p();
+				setBodyTailPos();
 
 				snakeSp[0].setRotation(180);
 				if (dx > 0) snakeSp[1].setTextureRect(sf::IntRect::Rect(42, 0, 41, 41));
@@ -112,14 +112,14 @@ void Snake::pressKey(sf::Clock& animationClock) {
 				dx = 0;
 				dy = -1;
 
-				f();
+				setTurnHeadPos();
 			}
 
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 			if (dy == 0) {
 
-				p();
+				setBodyTailPos();
 
 				snakeSp[0].setRotation(0);
 				if (dx > 0) snakeSp[1].setTextureRect(sf::IntRect::Rect(85, 0, 41, 41));
@@ -128,15 +128,13 @@ void Snake::pressKey(sf::Clock& animationClock) {
 				dx = 0;
 				dy = 1;
 
-				f();
+				setTurnHeadPos();
 			}
 
 		}
 
 	
 }
-
-
 
 
 void Snake::move(sf::Clock& animationClock,float& animationTime) {
@@ -171,16 +169,16 @@ void Snake::move(sf::Clock& animationClock,float& animationTime) {
 
 
 
-inline sf::Vector2f Snake::getPosition(const int8_t pos)
+inline sf::Vector2f Snake::getPosition(const int8_t spNum)
 {
-	return snakeSp[pos].getPosition();
+	return snakeSp[spNum].getPosition();
 }
 
 
 
-inline void Snake::setPosition(int8_t index,const float& x, const float& y)
+inline void Snake::setPosition(int8_t spNum,const float& x, const float& y)
 {
-	snakeSp[index].setPosition(x, y);
+	snakeSp[spNum].setPosition(x, y);
 }
 
 std::vector<sf::Sprite>& Snake::getSnake()
@@ -205,8 +203,8 @@ sf::Sprite& Snake::lastBlock()
 
 void Snake::drawSnake(sf::RenderWindow& window)
 {
-	for (size_t i = 0; i < Snake::getSnakeSize(); ++i) {
-		window.draw(snakeSp[i]);
+	for (auto& i:snakeSp) {
+		window.draw(i);
 	}
 
 }
@@ -215,7 +213,7 @@ inline sf::Vector2f& Snake::getPlaceForNext() {
 	return placeForNext;
 }
 
-bool Snake::checkRepeat()
+bool Snake::checkConflict()
 {
 
 	for (size_t i = 4; i < snakeSp.size();++i) {
@@ -328,10 +326,10 @@ const sf::FloatRect& Counter::getTextLocalBound() const
 
 //Food classes method
 
-Food::Food(std::string filename, int x, int y, int weight, int height) :x(x), y(y), weight(weight), height(height) {
+Food::Food(std::string filename){
 	foodTexture.loadFromFile(filename);
 	foodSp.setTexture(foodTexture);
-	foodSp.setTextureRect(sf::IntRect::Rect(x, y, weight, height));
+	foodSp.setTextureRect(sf::IntRect::Rect(83, 94, 210, 210));
 	foodSp.setScale(50./210, 50./210);
 	foodSp.setPosition(575, 125);
 	foodSp.setOrigin(sf::Vector2f(foodSp.getLocalBounds().width, foodSp.getLocalBounds().height) / 2.f);

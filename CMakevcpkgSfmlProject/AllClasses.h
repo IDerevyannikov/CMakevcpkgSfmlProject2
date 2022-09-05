@@ -14,9 +14,9 @@ public:
 
 	void move(sf::Clock& animationClock, float& animationTime);
 
-	sf::Vector2f getPosition(const int8_t pos);
+	sf::Vector2f getPosition(const int8_t spNum);
 
-	void setPosition(int8_t index,const float & x, const float &y);
+	void setPosition(int8_t spNum,const float & x, const float &y);
 
 	std::vector <sf::Sprite>& getSnake();
 
@@ -30,7 +30,7 @@ public:
 
 	sf::Vector2f& getPlaceForNext();
 
-	bool checkRepeat();
+	bool checkConflict();
 
 	void stopMove();
 
@@ -77,7 +77,7 @@ private:
 //Class Food
 class Food {
 public:
-	Food(std::string filename, int x, int y, int weight, int height);
+	Food(std::string filename);
 
 
 	void installFood(Snake& snake, std::vector<int>& freeBlock, Counter& ctr);
@@ -85,8 +85,6 @@ public:
 
 private:
 
-	int x, y, weight, height;
-	int8_t dx, dy;
 	sf::Texture foodTexture;
 	sf::Sprite foodSp;
 };
@@ -101,7 +99,7 @@ public:
 	void  draw(sf::RenderWindow& window);
 
 private:
-	int x, y;
+
 	sf::RenderTexture bgRendTex;
 	sf::Sprite bgSp;
 };
