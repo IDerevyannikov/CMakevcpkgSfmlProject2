@@ -45,122 +45,95 @@ sf::Sprite& Snake::operator[](const int i)
 }
 
 void Snake::pressKey(sf::Clock& animationClock) {
-	if (!this->checkRepeat()) {
+
+	auto p = [this] {
+		placeForNext = snakeSp.back().getPosition();
+		penaltimate = snakeSp[snakeSp.size() - 2];
+		tailRotate = snakeSp.back().getRotation();
+		snakeSp.back().setPosition(snakeSp[snakeSp.size() - 2].getPosition());
+		snakeSp.back().setRotation(snakeSp[snakeSp.size() - 2].getRotation() + 180);
+		for (size_t i = snakeSp.size() - 2; i > 1; --i) {
+			snakeSp[i].setPosition(snakeSp[i - 1].getPosition());
+			snakeSp[i].setTextureRect(snakeSp[i - 1].getTextureRect());
+			snakeSp[i].setRotation(snakeSp[i - 1].getRotation());
+		}
+	};
+
+
+	auto f = [this, &animationClock] {
+		snakeSp[1].setRotation(snakeSp[0].getRotation());
+	snakeSp[1].setPosition(snakeSp[0].getPosition());
+	snakeSp[0].setPosition(snakeSp[0].getPosition().x + 50 *dx, snakeSp[0].getPosition().y+50*dy);
+	animationClock.restart(); 
+
+	};
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 			if (dx == 0) {
 
-
-				placeForNext = snakeSp.back().getPosition();
-				penaltimate = snakeSp[snakeSp.size() - 2];
-				tailRotate = snakeSp.back().getRotation();
-				snakeSp.back().setPosition(snakeSp[snakeSp.size()-2].getPosition());
-				snakeSp.back().setRotation(snakeSp[snakeSp.size() - 2].getRotation()+180);
-				for (size_t i = snakeSp.size() - 2; i > 1; --i) {
-					snakeSp[i].setPosition(snakeSp[i - 1].getPosition());
-					snakeSp[i].setTextureRect(snakeSp[i - 1].getTextureRect());
-					snakeSp[i].setRotation(snakeSp[i-1].getRotation());
-				}
+				p();
 
 				snakeSp[0].setRotation(270);
 				if (dy < 0) snakeSp[1].setTextureRect(sf::IntRect::Rect(85, 0, 41, 41));
 				else if (dy > 0) snakeSp[1].setTextureRect(sf::IntRect::Rect(42, 0, 41, 41));
-				snakeSp[1].setRotation(snakeSp[0].getRotation());
+				
 				dx = 1;
 				dy = 0;
-
-				snakeSp[1].setPosition(snakeSp[0].getPosition());
-				snakeSp[0].setPosition(snakeSp[0].getPosition().x + 50, snakeSp[0].getPosition().y);
-				animationClock.restart();
+				
+				f();
 			}
 
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 			if (dx == 0) {
 
+				p();
 
-				placeForNext = snakeSp.back().getPosition();
-				penaltimate = snakeSp[snakeSp.size() - 2];
-				tailRotate = snakeSp.back().getRotation();
-				snakeSp.back().setPosition(snakeSp[snakeSp.size() - 2].getPosition());
-				snakeSp.back().setRotation(snakeSp[snakeSp.size() - 2].getRotation()+180);
-				for (size_t i = snakeSp.size() - 2; i > 1; --i) {
-					snakeSp[i].setPosition(snakeSp[i - 1].getPosition());
-					snakeSp[i].setTextureRect(snakeSp[i - 1].getTextureRect());
-					snakeSp[i].setRotation(snakeSp[i-1].getRotation());
-				}
 				snakeSp[0].setRotation(90);
 				if (dy < 0) snakeSp[1].setTextureRect(sf::IntRect::Rect(42, 0, 41, 41));
 				else if (dy > 0) snakeSp[1].setTextureRect(sf::IntRect::Rect(85, 0, 41, 41));
-				snakeSp[1].setRotation(snakeSp[0].getRotation());
+				
 				dx = -1;
 				dy = 0;
-
-				snakeSp[1].setPosition(snakeSp[0].getPosition());
-				snakeSp[0].setPosition(snakeSp[0].getPosition().x - 50, snakeSp[0].getPosition().y);
-				animationClock.restart();
+				
+				f();
 			}
 		}
 
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
 			if (dy == 0) {
 
-				placeForNext = snakeSp.back().getPosition();
-				penaltimate = snakeSp[snakeSp.size() - 2];
-				tailRotate = snakeSp.back().getRotation();
-				snakeSp.back().setPosition(snakeSp[snakeSp.size() - 2].getPosition());
-				snakeSp.back().setRotation(snakeSp[snakeSp.size() - 2].getRotation()+180);
-				for (size_t i = snakeSp.size() - 2; i > 1; --i) {
-					snakeSp[i].setPosition(snakeSp[i - 1].getPosition());
-					snakeSp[i].setTextureRect(snakeSp[i - 1].getTextureRect());
-					snakeSp[i].setRotation(snakeSp[i-1].getRotation());
-				}
+				p();
 
 				snakeSp[0].setRotation(180);
 				if (dx > 0) snakeSp[1].setTextureRect(sf::IntRect::Rect(42, 0, 41, 41));
 				else if (dx < 0) snakeSp[1].setTextureRect(sf::IntRect::Rect(85, 0, 41, 41));
-				snakeSp[1].setRotation(snakeSp[0].getRotation());
-
 
 				dx = 0;
 				dy = -1;
 
-
-				snakeSp[1].setPosition(snakeSp[0].getPosition());
-				snakeSp[0].setPosition(snakeSp[0].getPosition().x, snakeSp[0].getPosition().y - 50);
-				animationClock.restart();
+				f();
 			}
 
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 			if (dy == 0) {
 
-				placeForNext = snakeSp.back().getPosition();
-				penaltimate = snakeSp[snakeSp.size() - 2];
-				tailRotate = snakeSp.back().getRotation();
-				snakeSp.back().setPosition(snakeSp[snakeSp.size() - 2].getPosition());
-				snakeSp.back().setRotation(snakeSp[snakeSp.size() - 2].getRotation()+180);
-				for (size_t i = snakeSp.size() - 2; i > 1; --i) {
-					snakeSp[i].setPosition(snakeSp[i - 1].getPosition());
-					snakeSp[i].setTextureRect(snakeSp[i - 1].getTextureRect());
-					snakeSp[i].setRotation(snakeSp[i-1].getRotation());
-				}
+				p();
 
 				snakeSp[0].setRotation(0);
 				if (dx > 0) snakeSp[1].setTextureRect(sf::IntRect::Rect(85, 0, 41, 41));
 				else if (dx < 0) snakeSp[1].setTextureRect(sf::IntRect::Rect(42, 0, 41, 41));
-				snakeSp[1].setRotation(snakeSp[0].getRotation());
+
 				dx = 0;
 				dy = 1;
 
-				snakeSp[1].setPosition(snakeSp[0].getPosition());
-				snakeSp[0].setPosition(snakeSp[0].getPosition().x, snakeSp[0].getPosition().y + 50);
-				animationClock.restart();
+				f();
 			}
 
 		}
 
-	}
+	
 }
 
 
@@ -169,9 +142,7 @@ void Snake::pressKey(sf::Clock& animationClock) {
 void Snake::move(sf::Clock& animationClock,float& animationTime) {
 	if (animationTime > 0.25f) {
 		if (dx != 0 || dy != 0) {
-			/*CurrentFrame += animatonParam * time;
-			if (CurrentFrame > 6) animatonParam = -0.005;
-			else if (CurrentFrame < 0) animatonParam = 0.005;*/
+
 			placeForNext = snakeSp.back().getPosition();
 			penaltimate = snakeSp[snakeSp.size() - 2];
 			tailRotate = snakeSp.back().getRotation();

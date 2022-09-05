@@ -16,7 +16,7 @@ int main()
 
 	sf::Clock snakeClock;
 	sf::Clock animationClock;
-	
+	//sf::Clock fps;
 
 	std::vector<int> freeBlock((1000 / 50) * (500 / 50));
 	std::fill(freeBlock.begin()+20, freeBlock.end(), 1);
@@ -24,11 +24,14 @@ int main()
 	bool ispaused = false;
 	sf::Event gameEvent;
 
+	auto i = 0;
+
+
 	while (gameWindow.isOpen()) {
 
 		float snakeTime = snakeClock.getElapsedTime().asSeconds();
 		float animationTime = animationClock.getElapsedTime().asSeconds();
-
+		//float fps2 = fps.getElapsedTime().asSeconds();
 
 		
 		if (gameWindow.pollEvent(gameEvent)) {
@@ -51,17 +54,19 @@ int main()
 			}
 		}
 		
-		if (!ispaused && !mainSnake.checkRepeat()) {
-			mainSnake.pressKey(animationClock);
-			mainSnake.move(animationClock, animationTime);
+		if (!ispaused) {
+
+			if (!mainSnake.checkRepeat()) {
+				mainSnake.pressKey(animationClock);
+				mainSnake.move(animationClock, animationTime);
 
 
-			apple.installFood(mainSnake, freeBlock, pointCtr);
-
-			//if (mainSnake.checkRepeat()) {
-				//mainSnake.stopMove();
-				//continue;
-			//}
+				apple.installFood(mainSnake, freeBlock, pointCtr);
+			}
+			else {
+				mainSnake.stopMove();
+				continue;
+			}
 
 			gameWindow.clear(sf::Color(0,141,150));
 			bg.draw(gameWindow);
@@ -69,8 +74,14 @@ int main()
 			apple.draw(gameWindow);
 			pointCtr.draw(gameWindow);
 			gameWindow.display();
-
+			//++i;
 		}
+
+		/*if (fps2 > 1) {
+			std::cout << i << '\n';
+			fps.restart();
+			i = 0;
+		}*/
 	}
 
 	return 0;
